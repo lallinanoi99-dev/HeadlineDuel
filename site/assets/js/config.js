@@ -11,7 +11,7 @@ export const TESTNET_CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000
 /** Cloudflare Worker (shared Week 1 Worker) base URL, no trailing slash. */
 export const WORKER_URL = 'https://headline-duel-worker.example.workers.dev';
 
-export const SITE_URL = 'https://headlineduel.xyz';
+export const SITE_URL = 'https://headlineduelbot.vercel.app';
 export const REPO_URL = 'https://github.com/lallinanoi99-dev/HeadlineDuel';
 export const X_URL = 'https://x.com/';
 export const IPFS_GATEWAY = 'https://gateway.pinata.cloud/ipfs/';
