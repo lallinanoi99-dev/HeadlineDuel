@@ -6,11 +6,11 @@ Built on **BOT Chain** (mainnet chain ID 677).
 
 | | |
 |---|---|
-| Mainnet contract | `0x0000000000000000000000000000000000000000` ← **replace after deploying** ([scan.botchain.ai](https://scan.botchain.ai)) |
-| Live site | `https://headlineduel.xyz` (GitHub Pages + custom domain) |
+| Mainnet contract | [`0x2D140F58c2A2D97927E11BFc888A0144668b47FD`](https://scan.botchain.ai/address/0x2D140F58c2A2D97927E11BFc888A0144668b47FD) on [scan.botchain.ai](https://scan.botchain.ai) |
+| Live site | https://lallinanoi99-dev.github.io/HeadlineDuel/ (GitHub Pages) |
 | Worker | `https://headline-duel-worker.<subdomain>.workers.dev` |
 
-> Until a contract address is set in `site/assets/js/config.js`, the site runs in **demo mode**. Duels and votes are then stored only in your browser, and a yellow banner says so on every page.
+> The site reads and writes this contract on BOT Chain. Without a contract address in `site/assets/js/config.js`, it falls back to **demo mode**, where data is stored in the browser and a banner says so.
 
 ---
 
