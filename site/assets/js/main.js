@@ -57,7 +57,7 @@ async function route() {
   $$('.nav__link').forEach((a) => a.classList.toggle('is-active', a.getAttribute('href') === match.nav));
 
   if (match.view === 'home') {
-    app.hidden = true;
+    $('#appBand').hidden = true;
     app.innerHTML = '';
     home.hidden = false;
     document.title = 'Headline Duel — Let the crowd pick';
@@ -71,7 +71,7 @@ async function route() {
     }
   } else {
     home.hidden = true;
-    app.hidden = false;
+    $('#appBand').hidden = false;
     app.innerHTML = '';
     window.scrollTo(0, 0);
     try {
@@ -188,8 +188,8 @@ function boot() {
     const bn = $('#demo-banner');
     bn.hidden = false;
     bn.innerHTML = IS_CONFIGURED
-      ? 'Demo mode — data lives only in this browser.'
-      : 'Demo mode — no contract configured yet, so duels and votes are stored only in this browser. <a href="about" data-link>How to deploy</a>';
+      ? 'Demo mode: data lives only in this browser.'
+      : 'Demo mode: no contract is configured yet, so duels and votes are stored only in this browser. <a href="about" data-link>How to deploy</a>';
   } else if (NETWORK === 'testnet') {
     const bn = $('#demo-banner');
     bn.hidden = false;

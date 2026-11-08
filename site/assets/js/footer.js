@@ -2,7 +2,7 @@
 // changing colour A-blue → B-coral → yellow on each wall hit, with a cheer on corners.
 import { $, reducedMotion, isMobile } from './util.js';
 
-const COLOURS = ['#3D7BFF', '#FF5C39', '#FFD23F'];
+const COLOURS = ['#3D7BFF', '#FF5C39', '#39FF7A'];
 
 export function initFooter() {
   const panel = $('#dvd');

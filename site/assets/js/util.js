@@ -111,7 +111,7 @@ export function hydrateIcons(root = document) {
   });
 }
 
-export const LOGO_SVG = `<svg class="logo-mark" viewBox="0 0 40 28" aria-hidden="true"><rect x="0.5" y="0.5" width="39" height="27" rx="8" fill="#1C1C1C" stroke="#363636"/><text x="7.5" y="19.5" font-family="Geist Mono, ui-monospace, monospace" font-size="13" font-weight="700" fill="#3D7BFF">A</text><rect x="19" y="6" width="2" height="16" rx="1" fill="#FFD23F"/><text x="24" y="19.5" font-family="Geist Mono, ui-monospace, monospace" font-size="13" font-weight="700" fill="#FF5C39">B</text></svg>`;
+export const LOGO_SVG = `<svg class="logo-mark" viewBox="0 0 40 28" aria-hidden="true"><rect x="0.5" y="0.5" width="39" height="27" rx="8" fill="#1C1C1C" stroke="#363636"/><text x="7.5" y="19.5" font-family="Geist Mono, ui-monospace, monospace" font-size="13" font-weight="700" fill="#3D7BFF">A</text><rect x="19" y="6" width="2" height="16" rx="1" fill="#39FF7A"/><text x="24" y="19.5" font-family="Geist Mono, ui-monospace, monospace" font-size="13" font-weight="700" fill="#FF5C39">B</text></svg>`;
 
 /** Render a version (text or image CID) as HTML. */
 export function versionHTML(duel, side, cls = '') {

@@ -32,7 +32,7 @@
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
@@ -48,338 +48,452 @@
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
-  <div id="demo-banner" class="demo-banner" hidden></div>
 
-  <!-- Announcement bar -->
-  <a class="announce" href="app/new?cat=5" data-link>
-    <span class="announce__pill">New</span>
-    <span>Image duels are here</span>
-    <span aria-hidden="true">→</span>
-  </a>
-
-  <!-- Navbar -->
-  <header class="nav" id="nav">
-    <div class="nav__inner">
-      <a href="./" class="brand" data-link aria-label="Headline Duel home">
-        <span class="brand__mark" data-logo></span>
-        <span class="brand__name">Headline Duel</span>
-      </a>
-      <nav class="nav__links" aria-label="Main">
-        <div class="dropdown">
-          <button class="nav__link dropdown__btn" aria-expanded="false" aria-haspopup="true">Features <i data-icon="chevron"></i></button>
-          <div class="dropdown__menu" role="menu">
-            <a role="menuitem" href="#duels" data-scroll><i data-icon="layers"></i><span><b>Duels</b><small>Two versions, one winner</small></span></a>
-            <a role="menuitem" href="#how" data-scroll><i data-icon="robot"></i><span><b>AI prediction</b><small>Locked before anyone votes</small></span></a>
-            <a role="menuitem" href="#share" data-scroll><i data-icon="trophy"></i><span><b>Results</b><small>Reasons, summary, result card</small></span></a>
-          </div>
-        </div>
-        <a class="nav__link" href="app" data-link>Wall</a>
-        <a class="nav__link" href="#faq" data-scroll>FAQ</a>
-      </nav>
-      <div class="nav__actions">
-        <button class="btn btn--ghost btn--sm" id="walletBtn" type="button">Connect wallet</button>
-        <a class="btn btn--primary btn--sm" href="app/new" data-link>Start a duel</a>
-        <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
-      </div>
-    </div>
-    <div class="nav__mobile" id="mobileMenu" hidden>
-      <a href="#duels" data-scroll>Duels</a>
-      <a href="#how" data-scroll>AI prediction</a>
-      <a href="#share" data-scroll>Results</a>
-      <a href="app" data-link>The wall</a>
-      <a href="app/me" data-link>My duels</a>
-      <a href="#faq" data-scroll>FAQ</a>
-    </div>
-  </header>
-
-  <div id="content">
-  <!-- ═════════════════════════ WEBSITE ═════════════════════════ -->
-  <div id="home" class="view">
-
-    <!-- 1 · Hero -->
-    <section class="hero" id="top">
-      <p class="eyebrow">Pick better words, faster</p>
-      <h1 class="hero__title" id="heroTitle">Let the crowd pick.</h1>
-      <p class="hero__sub">Post two versions of your headline, ad or tagline. Real people vote, AI guesses first, and the results live on BOT Chain.</p>
-      <div class="hero__ctas">
-        <a class="btn btn--primary" href="app/new" data-link>Start a duel</a>
-        <a class="btn btn--ghost" href="app" data-link>See the wall</a>
-      </div>
-      <ul class="pills" aria-label="What you can duel">
-        <li class="pill"><i data-icon="type"></i>Headlines</li>
-        <li class="pill"><i data-icon="megaphone"></i>Ads</li>
-        <li class="pill"><i data-icon="image"></i>Images</li>
-      </ul>
-
-      <div class="poster" aria-label="Animated demo of a duel">
-        <div class="poster__chrome"><span></span><span></span><span></span><em>headlineduel.xyz/d/21</em></div>
-        <div class="demo">
-          <p class="demo__q">Which would make you click?</p>
-          <div class="demo__split">
-            <div class="demo__side demo__side--a" id="demoA">
-              <span class="tagAB tagAB--a">A</span>
-              <p class="demo__text"><span id="demoTextA"></span><span class="caret"></span></p>
-            </div>
-            <div class="vs" id="demoVS">VS</div>
-            <div class="demo__side demo__side--b" id="demoB">
-              <span class="tagAB tagAB--b">B</span>
-              <p class="demo__text"><span id="demoTextB"></span><span class="caret"></span></p>
+  <div class="site">
+    <!-- Navbar (floating box) -->
+    <header class="nav" id="nav">
+      <div class="nav__box">
+        <a href="./" class="brand" data-link aria-label="Headline Duel home">
+          <span class="brand__mark" data-logo></span>
+          <span class="brand__name">Headline Duel</span>
+        </a>
+        <nav class="nav__links" aria-label="Main">
+          <div class="dropdown">
+            <button class="nav__link dropdown__btn" aria-expanded="false" aria-haspopup="true">Features <i data-icon="chevron"></i></button>
+            <div class="dropdown__menu" role="menu">
+              <a role="menuitem" href="#duels" data-scroll><span class="appicon appicon--a"><i data-icon="layers"></i></span><span><b>Duels</b><small>Two versions, one winner</small></span></a>
+              <a role="menuitem" href="#how" data-scroll><span class="appicon appicon--g"><i data-icon="robot"></i></span><span><b>AI prediction</b><small>Locked before anyone votes</small></span></a>
+              <a role="menuitem" href="#share" data-scroll><span class="appicon appicon--b"><i data-icon="trophy"></i></span><span><b>Results</b><small>Reasons, summary, result card</small></span></a>
             </div>
           </div>
-          <div class="demo__bar" aria-hidden="true">
-            <div class="demo__barA" id="demoBarA"></div>
-            <div class="demo__barB" id="demoBarB"></div>
-            <span class="demo__pctA" id="demoPctA">38%</span>
-            <span class="demo__pctB" id="demoPctB">62%</span>
+          <a class="nav__link" href="app" data-link>Wall</a>
+          <a class="nav__link" href="#faq" data-scroll>FAQ</a>
+        </nav>
+        <div class="nav__actions">
+          <button class="btn btn--dark btn--sm" id="walletBtn" type="button">Connect wallet</button>
+          <a class="btn btn--primary btn--sm nav__cta" href="app/new" data-link>Start a duel</a>
+          <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+        </div>
+      </div>
+      <div class="nav__mobile" id="mobileMenu" hidden>
+        <a href="#duels" data-scroll>Duels</a>
+        <a href="#how" data-scroll>AI prediction</a>
+        <a href="#share" data-scroll>Results</a>
+        <a href="app" data-link>The wall</a>
+        <a href="app/me" data-link>My duels</a>
+        <a href="app/new" data-link>Start a duel</a>
+        <a href="#faq" data-scroll>FAQ</a>
+      </div>
+    </header>
+
+    <!-- Announcement bar -->
+    <div class="band band--announce">
+      <div class="col announce">
+        <span><span class="announce__dot"></span>New: image duels are here</span>
+        <a class="link" href="app/new?cat=5" data-link>Try one →</a>
+      </div>
+    </div>
+    <div id="demo-banner" class="band band--demo" hidden></div>
+
+    <div id="content">
+    <!-- ═════════════════════════ WEBSITE ═════════════════════════ -->
+    <div id="home" class="view">
+
+      <!-- 1 · Hero -->
+      <section class="band band--hero tex" id="top">
+        <div class="col hero">
+          <p class="kicker">Pick better words, faster</p>
+          <h1 class="hero__title" id="heroTitle">Let the crowd pick.</h1>
+          <p class="hero__sub">Post two versions of your headline, ad or tagline. Real people vote, AI guesses first, and the results live on BOT Chain.</p>
+          <div class="hero__ctas">
+            <a class="btn btn--primary btn--lg" href="app/new" data-link><i data-icon="bolt"></i>Start a duel</a>
+            <a class="btn btn--dark btn--lg" href="app" data-link>See the wall</a>
           </div>
-          <div class="ai-badge ai-badge--ok" id="demoBadge">🤖 AI picked B — ✓ the crowd agreed</div>
-          <svg class="cursor" id="demoCursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l16 9-7 2-3 7z" fill="#F5F2EA" stroke="#1C1C1C" stroke-width="1.5"/></svg>
+          <ul class="pills" aria-label="What you can duel">
+            <li class="pill"><i data-icon="type"></i>Headlines</li>
+            <li class="pill"><i data-icon="megaphone"></i>Ads</li>
+            <li class="pill"><i data-icon="image"></i>Images</li>
+          </ul>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 2 · Live duels strip -->
-    <section class="strip" aria-label="Duels running now">
-      <p class="strip__label">Duels running now</p>
-      <div class="marquee" id="marquee"><div class="marquee__track" id="marqueeTrack"></div></div>
-    </section>
-
-    <!-- 3 · Intro statement -->
-    <section class="statement" data-reveal>
-      <p class="statement__text">
-        Stop guessing which words work.
-        <b><i data-icon="type" class="ic--blue"></i>Test your headlines</b>,
-        <b><i data-icon="megaphone" class="ic--coral"></i>compare your ads</b> and
-        <b><i data-icon="tag" class="ic--yellow"></i>pick your names</b> with
-        <b><i data-icon="users" class="ic--green"></i>real people</b> in a day.
-      </p>
-    </section>
-
-    <!-- 4 · Duel anything you write -->
-    <section class="section" id="duels">
-      <div class="section__head" data-reveal>
-        <p class="eyebrow">Duels</p>
-        <h2>Duel anything you write</h2>
-      </div>
-      <div class="tabrail" role="tablist" aria-label="Duel examples">
-        <button role="tab" class="tabrail__tab is-active" aria-selected="true" data-tab="0"><i data-icon="type"></i>Headlines</button>
-        <button role="tab" class="tabrail__tab" aria-selected="false" data-tab="1"><i data-icon="megaphone"></i>Ads</button>
-        <button role="tab" class="tabrail__tab" aria-selected="false" data-tab="2"><i data-icon="mail"></i>Email subjects</button>
-        <button role="tab" class="tabrail__tab" aria-selected="false" data-tab="3"><i data-icon="tag"></i>Names</button>
-      </div>
-      <div class="window" data-reveal>
-        <div class="window__chrome"><span></span><span></span><span></span><em id="mockUrl">headlineduel.xyz/d/12</em></div>
-        <div class="mock" id="mock" data-layout="split">
-          <p class="mock__q" id="mockQ">Which would make you click?</p>
-          <div class="mock__grid">
-            <div class="mock__card mock__card--a" data-flip-id="a"><span class="tagAB tagAB--a">A</span><p id="mockA"></p><div class="mock__meter"><i style="--w:41%"></i></div></div>
-            <div class="mock__card mock__card--b" data-flip-id="b"><span class="tagAB tagAB--b">B</span><p id="mockB"></p><div class="mock__meter"><i style="--w:59%"></i></div></div>
-            <div class="mock__ai" data-flip-id="ai" id="mockAI">🤖 AI pick locked: B · medium</div>
+      <section class="band">
+        <div class="col showcase">
+          <div class="seg" role="tablist" aria-label="Demo duels" id="demoTabs">
+            <button role="tab" class="seg__tab is-active" aria-selected="true" data-round="0"><span class="appicon appicon--a"><i data-icon="type"></i></span>Headline</button>
+            <button role="tab" class="seg__tab" aria-selected="false" data-round="1"><span class="appicon appicon--p"><i data-icon="tag"></i></span>Tagline</button>
+            <button role="tab" class="seg__tab" aria-selected="false" data-round="2"><span class="appicon appicon--b"><i data-icon="mail"></i></span>Email subject</button>
+          </div>
+          <div class="stage tex" aria-label="Animated demo of a duel">
+            <div class="window window--light demo">
+              <div class="window__bar"><span></span><span></span><span></span><em>headlineduel.xyz/d/21</em></div>
+              <div class="demo__body">
+                <p class="demo__q" id="demoQ">Which would make you click?</p>
+                <div class="demo__split">
+                  <div class="demo__side demo__side--a" id="demoA">
+                    <span class="tagAB tagAB--a">A</span>
+                    <p class="demo__text"><span id="demoTextA"></span><span class="caret"></span></p>
+                  </div>
+                  <div class="vs" id="demoVS">VS</div>
+                  <div class="demo__side demo__side--b" id="demoB">
+                    <span class="tagAB tagAB--b">B</span>
+                    <p class="demo__text"><span id="demoTextB"></span><span class="caret"></span></p>
+                  </div>
+                </div>
+                <div class="demo__bar" aria-hidden="true">
+                  <div class="demo__barA" id="demoBarA"></div>
+                  <div class="demo__barB" id="demoBarB"></div>
+                  <span class="demo__pctA" id="demoPctA">38%</span>
+                  <span class="demo__pctB" id="demoPctB">62%</span>
+                </div>
+              </div>
+              <svg class="cursor" id="demoCursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l16 9-7 2-3 7z" fill="#1C1C1C" stroke="#F5F2EA" stroke-width="1.5"/></svg>
+            </div>
+            <div class="toast-pill" id="demoBadge"><span class="toast-pill__check"><i data-icon="check"></i></span><span id="demoBadgeText">AI picked B. The crowd agreed.</span></div>
           </div>
         </div>
-      </div>
-      <div class="features4">
-        <article class="fcard" data-reveal><span class="checkbadge"><i data-icon="check"></i></span><h3>AI predicts first</h3><p>The AI's pick and a hash of its reason are written on-chain before the first vote. No quiet edits later.</p></article>
-        <article class="fcard" data-reveal><span class="checkbadge"><i data-icon="check"></i></span><h3>Reasons, not just votes</h3><p>Voters add a one-line why. You get the themes — “clearer benefit (12), shorter (7)”.</p></article>
-        <article class="fcard" data-reveal><span class="checkbadge"><i data-icon="check"></i></span><h3>One vote per wallet</h3><p>Enforced by the contract. Creators can't vote on their own duel.</p></article>
-        <article class="fcard" data-reveal><span class="checkbadge"><i data-icon="check"></i></span><h3>Share in one click</h3><p>Link, QR code and a ready-to-post “Help me pick: A or B?”.</p></article>
-      </div>
-    </section>
+      </section>
 
-    <!-- 5 · How it works carousel -->
-    <section class="section" id="how">
-      <div class="section__head section__head--row" data-reveal>
-        <div><p class="eyebrow">How it works</p><h2>Four steps. One winner.</h2></div>
-        <div class="carousel__ctrls">
-          <button class="iconbtn" id="carPrev" aria-label="Previous step"><span aria-hidden="true">←</span></button>
-          <button class="iconbtn" id="carNext" aria-label="Next step"><span aria-hidden="true">→</span></button>
+      <!-- 2 · Live duels strip -->
+      <section class="band" aria-label="Duels running now">
+        <div class="col strip">
+          <p class="badge-pill"><span class="badge-pill__dots"><i></i><i></i><i></i></span>Duels running now</p>
+          <div class="marquee" id="marquee"><div class="marquee__track" id="marqueeTrack"></div></div>
         </div>
-      </div>
-      <div class="carousel" id="carousel">
-        <div class="carousel__track" id="carTrack">
-          <article class="step" data-step="0">
-            <div class="step__screen">
-              <div class="mini mini--write">
+      </section>
+
+      <!-- 3 · Intro statement -->
+      <section class="band">
+        <div class="col statement" data-reveal>
+          <p class="statement__text">
+            Stop guessing which words work.
+            <b><span class="appicon appicon--a appicon--inline"><i data-icon="type"></i></span>Test your headlines</b>,
+            <b><span class="appicon appicon--b appicon--inline"><i data-icon="megaphone"></i></span>compare your ads</b> and
+            <b><span class="appicon appicon--p appicon--inline"><i data-icon="tag"></i></span>pick your names</b> with
+            <b><span class="appicon appicon--g appicon--inline"><i data-icon="users"></i></span>real people</b> in a day.
+          </p>
+        </div>
+      </section>
+
+      <!-- 4 · Duel anything you write -->
+      <section class="band" id="duels">
+        <div class="col section">
+          <div class="shead" data-reveal>
+            <div>
+              <p class="label"><span class="appicon appicon--a"><i data-icon="layers"></i></span>Duels</p>
+              <h2>Duel anything you write</h2>
+            </div>
+            <p class="shead__lede">A headline, an ad, an email subject, a name. Post two versions and real people pick one. <span class="hl">The AI guesses first</span>, and that guess is locked before the first vote.</p>
+          </div>
+
+          <div class="feature">
+            <div class="vmenu" role="tablist" aria-label="Duel examples" id="vmenu">
+              <button role="tab" class="vmenu__item is-active" aria-selected="true" data-tab="0"><span class="appicon appicon--a"><i data-icon="type"></i></span>Headlines<i class="vmenu__bar"></i></button>
+              <button role="tab" class="vmenu__item" aria-selected="false" data-tab="1"><span class="appicon appicon--b"><i data-icon="megaphone"></i></span>Ads<i class="vmenu__bar"></i></button>
+              <button role="tab" class="vmenu__item" aria-selected="false" data-tab="2"><span class="appicon appicon--p"><i data-icon="mail"></i></span>Email subjects<i class="vmenu__bar"></i></button>
+              <button role="tab" class="vmenu__item" aria-selected="false" data-tab="3"><span class="appicon appicon--g"><i data-icon="tag"></i></span>Names<i class="vmenu__bar"></i></button>
+            </div>
+            <div class="feature__main">
+              <div class="stage stage--sm tex">
+                <div class="window window--light">
+                  <div class="window__bar"><span></span><span></span><span></span><em id="mockUrl">headlineduel.xyz/d/12</em></div>
+                  <div class="mock" id="mock" data-layout="split">
+                    <p class="mock__q" id="mockQ">Which would make you click?</p>
+                    <div class="mock__grid">
+                      <div class="mock__card mock__card--a" data-flip-id="a"><span class="tagAB tagAB--a">A</span><p id="mockA"></p><div class="mock__meter"><i style="--w:41%"></i></div></div>
+                      <div class="mock__card mock__card--b" data-flip-id="b"><span class="tagAB tagAB--b">B</span><p id="mockB"></p><div class="mock__meter"><i style="--w:59%"></i></div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="toast-pill"><span class="toast-pill__check"><i data-icon="check"></i></span><span id="mockAI">AI pick locked: B · medium</span></div>
+              </div>
+              <h3 class="feature__title" id="featTitle">Headlines that earn the click</h3>
+              <p class="feature__text" id="featText">See whether a concrete number beats a clever line, and read why people picked it.</p>
+            </div>
+          </div>
+
+          <div class="features4">
+            <article class="fcard" data-reveal><span class="checkbadge"><i data-icon="check"></i></span><h3>AI predicts first</h3><p>The AI's pick and a hash of its reason go on-chain before the first vote. No quiet edits later.</p></article>
+            <article class="fcard" data-reveal><span class="checkbadge"><i data-icon="check"></i></span><h3>Reasons, not just votes</h3><p>Voters add a one-line why. You get the themes, like “clearer benefit (12), shorter (7)”.</p></article>
+            <article class="fcard" data-reveal><span class="checkbadge"><i data-icon="check"></i></span><h3>One vote per wallet</h3><p>The contract enforces it. Creators can't vote on their own duel.</p></article>
+            <article class="fcard" data-reveal><span class="checkbadge"><i data-icon="check"></i></span><h3>Share in one click</h3><p>A link, a QR code and a ready-to-post “Help me pick: A or B?”.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 · How it works (01–04) -->
+      <section class="band" id="how">
+        <div class="col section section--flush-bottom">
+          <div class="shead" data-reveal>
+            <div>
+              <p class="label"><span class="appicon appicon--g"><i data-icon="robot"></i></span>How it works</p>
+              <h2>Four steps.<br>One winner.</h2>
+            </div>
+            <p class="shead__lede">Write two versions. The AI locks its guess on BOT Chain. Real people vote and say why. You get the winner, the reasons and a card to share. <span class="hl">No database, no accounts.</span></p>
+          </div>
+        </div>
+        <div class="col col--bleed">
+          <div class="steps" id="steps">
+            <article class="stp stp--1 tex is-active" data-step="0" tabindex="0" aria-label="Step 01: Write two versions">
+              <p class="stp__num">01</p><p class="stp__word">Write</p>
+              <div class="stp__card">
+                <p class="stp__h">Two versions</p>
                 <div class="mini__field"><small>A</small><span class="mini__type" data-text="Fuel for finals."></span></div>
                 <div class="mini__field mini__field--b"><small>B</small><span class="mini__type" data-text="Fresh beans, every Monday."></span></div>
+                <p class="stp__note">Up to 140 characters each, or two images.</p>
               </div>
-            </div>
-            <p class="step__num">01</p><h3>Write two versions</h3><p>Text up to 140 characters, or two images. Add a line of context so voters know the audience.</p>
-          </article>
-          <article class="step" data-step="1">
-            <div class="step__screen">
-              <div class="mini mini--predict">
+            </article>
+            <article class="stp stp--2 tex" data-step="1" tabindex="0" aria-label="Step 02: Predict">
+              <p class="stp__num">02</p><p class="stp__word">Predict</p>
+              <div class="stp__card stp__card--center">
                 <div class="mini__robot">🤖</div>
                 <div class="mini__lock"><i data-icon="lock"></i><span>Pick: A · high</span></div>
-                <code class="mini__hash">keccak256 → 0x8f3a…c21e</code>
+                <code class="mini__hash">keccak256(reason) → 0x8f3a…c21e</code>
+                <p class="stp__note">Locked on-chain before any votes.</p>
               </div>
-            </div>
-            <p class="step__num">02</p><h3>Predict</h3><p>The AI locks its guess on-chain — pick, confidence and a hash of its reason — before any votes.</p>
-          </article>
-          <article class="step" data-step="2">
-            <div class="step__screen">
-              <div class="mini mini--vote">
-                <div class="mini__half mini__half--a">A</div><div class="mini__half mini__half--b">B</div>
+            </article>
+            <article class="stp stp--3 tex" data-step="2" tabindex="0" aria-label="Step 03: Vote">
+              <p class="stp__num">03</p><p class="stp__word">Vote</p>
+              <div class="stp__card">
+                <div class="mini--vote"><div class="mini__half mini__half--a">A</div><div class="mini__half mini__half--b">B</div></div>
                 <div class="mini__reason">“B feels clearer”</div>
+                <p class="stp__note">Results unlock after you vote.</p>
               </div>
-            </div>
-            <p class="step__num">03</p><h3>Vote</h3><p>Real people pick a side and say why. Results stay hidden until you vote, so nobody follows the crowd.</p>
-          </article>
-          <article class="step" data-step="3">
-            <div class="step__screen">
-              <div class="mini mini--pick">
+            </article>
+            <article class="stp stp--4 tex" data-step="3" tabindex="0" aria-label="Step 04: Pick">
+              <p class="stp__num">04</p><p class="stp__word">Pick</p>
+              <div class="stp__card">
                 <div class="mini__bars"><i class="mini__ba"></i><i class="mini__bb"></i></div>
                 <div class="mini__win">🏆 B wins · 62%</div>
+                <p class="stp__note">Winner, top reasons, an AI theme summary and a result card.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <div class="band band--grill" aria-hidden="true"><div class="col grill"><span></span></div></div>
+
+      <!-- 6 · Bento -->
+      <section class="band">
+        <div class="col section">
+          <div class="shead" data-reveal>
+            <div>
+              <p class="label"><span class="appicon appicon--p"><i data-icon="spark"></i></span>Built for real work</p>
+              <h2>Headline Duel adapts to how you work</h2>
+            </div>
+            <p class="shead__lede">Text or images, a day or a week, one duel or a rematch. Everything is recorded on <span class="hl">BOT Chain</span>.</p>
+          </div>
+          <div class="bento">
+            <article class="tile tile--wide" data-reveal>
+              <h3>Categories</h3>
+              <p>Headline, Tagline, Ad, Email subject, Name and Image. The <span class="hl">question, context and category</span> tell voters who it's for.</p>
+              <div class="floaters" aria-hidden="true">
+                <span class="floater" style="--x:2%;--y:4%"><span class="appicon appicon--a"><i data-icon="type"></i></span>Headline</span>
+                <span class="floater" style="--x:24%;--y:30%"><span class="appicon appicon--p"><i data-icon="tag"></i></span>Tagline</span>
+                <span class="floater" style="--x:8%;--y:58%"><span class="appicon appicon--b"><i data-icon="megaphone"></i></span>Ad</span>
+                <span class="floater" style="--x:66%;--y:2%"><span class="appicon appicon--g"><i data-icon="mail"></i></span>Email subject</span>
+                <span class="floater" style="--x:58%;--y:36%"><span class="appicon appicon--a"><i data-icon="tag"></i></span>Name</span>
+                <span class="floater" style="--x:44%;--y:64%"><span class="appicon appicon--b"><i data-icon="image"></i></span>Image</span>
+              </div>
+              <div class="fakeinput"><span>Which would make you click?</span><span class="fakeinput__go"><i data-icon="arrow"></i></span></div>
+            </article>
+            <article class="tile" data-reveal>
+              <h3>24h / 3d / 7d</h3>
+              <p>Pick a duration. End early whenever you've seen enough.</p>
+              <div class="dict">
+                <div class="dict__add"><span>Duration</span><span class="dict__plus">+</span></div>
+                <div class="dict__row">24 hours</div><div class="dict__row is-on">3 days</div><div class="dict__row">7 days</div><div class="dict__row dict__row--fade">End early</div>
+              </div>
+            </article>
+            <article class="tile" data-reveal>
+              <h3>Image duels</h3>
+              <p>Two thumbnails, logos or hero shots. Up to 2 MB each, stored on <span class="hl">IPFS</span>.</p>
+              <div class="tile__imgs"><span class="ph ph--a"></span><span class="vs vs--sm">VS</span><span class="ph ph--b"></span></div>
+            </article>
+            <article class="tile" data-reveal>
+              <h3>AI vs crowd scoreboard</h3>
+              <p>How often does the AI call it? Site-wide accuracy, computed by the contract.</p>
+              <p class="tile__big" id="bentoAcc">—%</p>
+            </article>
+            <article class="tile" data-reveal>
+              <h3>Answer-to-see</h3>
+              <p>No bandwagon. Live results unlock only after you vote.</p>
+              <div class="blurbar"><div class="blurbar__bar"><i></i></div><span class="blurbar__lock"><i data-icon="lock"></i>Vote to reveal</span></div>
+            </article>
+            <article class="tile" data-reveal>
+              <h3>Rematches</h3>
+              <p>Winner vs a new challenger, prefilled in one click.</p>
+              <div class="rematch"><span class="chip chip--win">B · winner</span><span class="rematch__vs">vs</span><span class="chip">new challenger</span></div>
+            </article>
+            <article class="tile tile--wide" data-reveal>
+              <h3>Results forever on BOT Chain</h3>
+              <p>Votes and reasons are public events anyone can verify on <span class="hl">scan.botchain.ai</span>.</p>
+              <div class="txlist" aria-hidden="true">
+                <div><span class="mono">Voted</span><span>#21 · B · “clearer”</span><span class="ok">✓ confirmed</span></div>
+                <div><span class="mono">Voted</span><span>#21 · A · “punchier”</span><span class="ok">✓ confirmed</span></div>
+                <div><span class="mono">DuelStarted</span><span>#21 · AI pick B · 0x8f3a…</span><span class="ok">✓ confirmed</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7 · Share it anywhere -->
+      <section class="band" id="share">
+        <div class="col section">
+          <div class="shead" data-reveal>
+            <div>
+              <p class="label"><span class="appicon appicon--b"><i data-icon="share"></i></span>Results</p>
+              <h2>Share it anywhere</h2>
+            </div>
+            <p class="shead__lede">You get a link, a QR code and a ready X post. The vote page works on <span class="hl">any phone or desktop</span>.</p>
+          </div>
+          <div class="stage stage--devices tex" data-reveal>
+            <div class="devices">
+              <div class="device device--desktop">
+                <div class="device__screen">
+                  <div class="dsplit"><div class="dsplit__a"><small>A</small>Fuel for finals.</div><div class="vs vs--sm">VS</div><div class="dsplit__b"><small>B</small>Fresh beans, every Monday.</div></div>
+                </div>
+              </div>
+              <div class="device device--phone">
+                <div class="device__screen">
+                  <div class="psplit"><div class="psplit__a">A</div><div class="psplit__b">B</div></div>
+                  <div class="psplit__bar"><i></i></div>
+                </div>
+              </div>
+              <div class="xpost">
+                <div class="xpost__head"><span class="xpost__avatar"></span><div><b>you</b><small>@you</small></div><span class="xpost__x">𝕏</span></div>
+                <p>Help me pick: A or B? 👀<br><span class="link">headlineduel.xyz/d/21</span></p>
+                <div class="xpost__card"><span class="tagAB tagAB--a">A</span><span class="vs vs--sm">VS</span><span class="tagAB tagAB--b">B</span></div>
               </div>
             </div>
-            <p class="step__num">04</p><h3>Pick</h3><p>Winner, top reasons, an AI theme summary and a result card you can download and share.</p>
-          </article>
-        </div>
-      </div>
-      <div class="carousel__dots" id="carDots" role="tablist" aria-label="Steps"></div>
-    </section>
-
-    <!-- 6 · Bento -->
-    <section class="section">
-      <div class="section__head" data-reveal><p class="eyebrow">Built for real work</p><h2>Headline Duel adapts to how you work</h2></div>
-      <div class="bento">
-        <article class="tile tile--wide tile--img" data-reveal><i data-icon="image"></i><h3>Image duels</h3><p>Two thumbnails, two logos, two hero shots. Upload up to 2 MB each — stored on IPFS.</p><div class="tile__imgs"><span class="ph ph--a"></span><span class="vs vs--sm">VS</span><span class="ph ph--b"></span></div></article>
-        <article class="tile" data-reveal><i data-icon="layers"></i><h3>Categories</h3><p>Headline · Tagline · Ad · Email subject · Name · Image.</p></article>
-        <article class="tile" data-reveal><i data-icon="clock"></i><h3>24h / 3d / 7d</h3><p>Pick a duration. End early any time you've seen enough.</p></article>
-        <article class="tile" data-reveal><i data-icon="repeat"></i><h3>Rematches</h3><p>Winner vs a new challenger, prefilled in one click.</p></article>
-        <article class="tile tile--tall" data-reveal><i data-icon="robot"></i><h3>AI vs crowd scoreboard</h3><p>How often does the AI call it? Site-wide accuracy, computed by the contract.</p><p class="tile__big mono" id="bentoAcc">—%</p></article>
-        <article class="tile" data-reveal><i data-icon="chain"></i><h3>Results forever on BOT Chain</h3><p>Votes and reasons are public events anyone can verify.</p></article>
-        <article class="tile" data-reveal><i data-icon="eye"></i><h3>Answer-to-see</h3><p>No bandwagon: live results unlock only after you vote.</p></article>
-      </div>
-    </section>
-
-    <!-- 7 · Share it anywhere -->
-    <section class="section" id="share">
-      <div class="section__head" data-reveal><p class="eyebrow">Results</p><h2>Share it anywhere</h2><p class="lede">A link, a QR code, a ready X post. The vote page works on any phone and desktop.</p></div>
-      <div class="devices" data-reveal>
-        <div class="device device--desktop">
-          <div class="device__screen">
-            <div class="dsplit"><div class="dsplit__a"><small>A</small>Fuel for finals.</div><div class="vs vs--sm">VS</div><div class="dsplit__b"><small>B</small>Fresh beans, every Monday.</div></div>
+          </div>
+          <div class="realcard" id="realCard" data-reveal>
+            <p class="label label--center">A real finished duel, read from the contract</p>
+            <div id="realCardBody" class="realcard__body"><p class="muted">Loading…</p></div>
           </div>
         </div>
-        <div class="device device--phone">
-          <div class="device__screen">
-            <div class="psplit"><div class="psplit__a">A</div><div class="psplit__b">B</div></div>
-            <div class="psplit__bar"><i></i></div>
+      </section>
+
+      <!-- 8 · Pricing + comparison -->
+      <section class="band" id="pricing">
+        <div class="col section">
+          <div class="shead" data-reveal>
+            <div>
+              <p class="label"><span class="appicon appicon--g"><i data-icon="free"></i></span>Pricing</p>
+              <h2>Free. Just gas.</h2>
+            </div>
+            <p class="shead__lede">No tokens, no subscriptions, no fees. You only pay the <span class="hl">BOT Chain network fee</span> for each transaction.</p>
+          </div>
+          <div class="pricing" data-reveal>
+            <article class="price">
+              <div><p class="label">Everyone</p><p class="price__amt">$0<small> + gas</small></p></div>
+              <ul class="checks">
+                <li><i data-icon="check"></i>Unlimited duels</li>
+                <li><i data-icon="check"></i>Text and image duels</li>
+                <li><i data-icon="check"></i>AI prediction + theme summary</li>
+                <li><i data-icon="check"></i>Result card PNG</li>
+              </ul>
+              <a class="btn btn--primary btn--block" href="app/new" data-link>Start a duel</a>
+            </article>
+            <div class="compare" role="region" aria-label="Comparison" tabindex="0">
+              <table>
+                <thead><tr><th></th><th class="compare__us">Headline Duel</th><th>Asking friends in a group chat</th><th>Paid A/B testing tools</th></tr></thead>
+                <tbody>
+                  <tr><th>Real strangers</th><td class="y">✓</td><td class="n">✗</td><td class="y">✓</td></tr>
+                  <tr><th>Reasons collected</th><td class="y">✓</td><td class="y">✓</td><td class="n">✗</td></tr>
+                  <tr><th>Results can't be faked</th><td class="y">✓</td><td class="n">✗</td><td class="n">✗</td></tr>
+                  <tr><th>AI prediction</th><td class="y">✓</td><td class="n">✗</td><td class="n">✗</td></tr>
+                  <tr><th>Free</th><td class="y">✓</td><td class="y">✓</td><td class="n">✗</td></tr>
+                  <tr><th>Works before you launch</th><td class="y">✓</td><td class="y">✓</td><td class="n">✗</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-        <div class="xpost">
-          <div class="xpost__head"><span class="xpost__avatar"></span><div><b>you</b><small>@you</small></div><span class="xpost__x">𝕏</span></div>
-          <p>Help me pick: A or B? 👀<br><span class="link">headlineduel.xyz/d/21</span></p>
-          <div class="xpost__card"><span class="tagAB tagAB--a">A</span><span class="vs vs--sm">VS</span><span class="tagAB tagAB--b">B</span></div>
-        </div>
-      </div>
-      <div class="realcard" id="realCard" data-reveal>
-        <p class="realcard__label mono">A real finished duel, read from the contract</p>
-        <div id="realCardBody" class="realcard__body"><p class="muted">Loading…</p></div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 8 · Pricing + comparison -->
-    <section class="section" id="pricing">
-      <div class="section__head" data-reveal><p class="eyebrow">Pricing</p><h2>Free. Just gas.</h2></div>
-      <div class="pricing" data-reveal>
-        <article class="price">
-          <div class="price__top"><span class="pill pill--sm"><i data-icon="free"></i>Everyone</span><p class="price__amt">$0<small> + gas</small></p><p class="muted">No tokens, no subscriptions, no fees. You only pay the BOT Chain network fee for each transaction.</p></div>
-          <ul class="checks">
-            <li><i data-icon="check"></i>Unlimited duels</li>
-            <li><i data-icon="check"></i>Text and image duels</li>
-            <li><i data-icon="check"></i>AI prediction + theme summary</li>
-            <li><i data-icon="check"></i>Result card PNG</li>
-          </ul>
-          <a class="btn btn--primary btn--block" href="app/new" data-link>Start a duel</a>
-        </article>
-        <div class="compare" role="region" aria-label="Comparison" tabindex="0">
-          <table>
-            <thead><tr><th></th><th class="compare__us">Headline Duel</th><th>Asking friends in a group chat</th><th>Paid A/B testing tools</th></tr></thead>
-            <tbody>
-              <tr><th>Real strangers</th><td class="y">✓</td><td class="n">✗</td><td class="y">✓</td></tr>
-              <tr><th>Reasons collected</th><td class="y">✓</td><td class="y">✓</td><td class="n">✗</td></tr>
-              <tr><th>Results can't be faked</th><td class="y">✓</td><td class="n">✗</td><td class="n">✗</td></tr>
-              <tr><th>AI prediction</th><td class="y">✓</td><td class="n">✗</td><td class="n">✗</td></tr>
-              <tr><th>Free</th><td class="y">✓</td><td class="y">✓</td><td class="n">✗</td></tr>
-              <tr><th>Works before you launch</th><td class="y">✓</td><td class="y">✓</td><td class="n">✗</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- 9 · FAQ + stats -->
-    <section class="section" id="faq">
-      <div class="faqgrid">
-        <div>
-          <div class="section__head" data-reveal><p class="eyebrow">FAQ</p><h2>Questions, answered</h2></div>
-          <div class="faq" id="faqList">
-            <details><summary>Is it free?</summary><p>Yes. There are no fees or tokens. Starting a duel and voting are BOT Chain transactions, so you pay a small network gas fee.</p></details>
-            <details><summary>Can people vote twice?</summary><p>No. The contract stores one vote per wallet per duel, and the creator can't vote on their own duel.</p></details>
-            <details><summary>Why lock the AI pick?</summary><p>So the prediction can't be changed after votes come in. The pick, confidence and keccak256 hash of the reason are stored at creation; the reason text is in the creation event, and anyone can check it matches the hash.</p></details>
-            <details><summary>Who can see results?</summary><p>While a duel is live, results unlock after you vote (and always for the creator). Once it ends, everyone can see them. All votes are public on-chain.</p></details>
-            <details><summary>Do I need a wallet to vote?</summary><p>Yes — to keep it fair. One wallet, one vote. You can browse the wall and finished results without one.</p></details>
+      <!-- 9 · FAQ + stats -->
+      <section class="band" id="faq">
+        <div class="col section">
+          <div class="faqgrid">
+            <div>
+              <div class="shead shead--stack" data-reveal>
+                <div><p class="label"><span class="appicon appicon--p"><i data-icon="chat"></i></span>FAQ</p><h2>Questions, answered</h2></div>
+              </div>
+              <div class="faq" id="faqList">
+                <details><summary>Is it free?</summary><p>Yes. There are no fees or tokens. Starting a duel and voting are BOT Chain transactions, so you pay a small network fee.</p></details>
+                <details><summary>Can people vote twice?</summary><p>No. The contract stores one vote per wallet per duel, and the creator can't vote on their own duel.</p></details>
+                <details><summary>Why lock the AI pick?</summary><p>So the prediction can't change after votes come in. The pick, the confidence and a keccak256 hash of the reason are stored when the duel starts. The reason text is in the creation event, and anyone can check it matches the hash.</p></details>
+                <details><summary>Who can see results?</summary><p>While a duel is live, you see the results after you vote. The creator can always see them. Once the duel ends, everyone can. All votes are public on-chain.</p></details>
+                <details><summary>Do I need a wallet to vote?</summary><p>Yes, to keep it fair: one wallet, one vote. You can browse the wall and finished results without one.</p></details>
+              </div>
+            </div>
+            <div class="stats" data-reveal>
+              <div class="stat"><p class="stat__num" data-stat="duels">0</p><p class="stat__label">duels</p></div>
+              <div class="stat"><p class="stat__num" data-stat="votes">0</p><p class="stat__label">votes</p></div>
+              <div class="stat"><p class="stat__num" data-stat="acc">0</p><p class="stat__label">AI accuracy %</p></div>
+            </div>
           </div>
         </div>
-        <div class="stats" data-reveal>
-          <div class="stat"><p class="stat__num mono" data-stat="duels">0</p><p class="stat__label">duels</p></div>
-          <div class="stat"><p class="stat__num mono" data-stat="votes">0</p><p class="stat__label">votes</p></div>
-          <div class="stat"><p class="stat__num mono" data-stat="acc">0</p><p class="stat__label">AI accuracy %</p></div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 10 · Final CTA -->
-    <section class="cta" data-reveal>
-      <h2 class="cta__title">Write it twice.<br>Pick it once.</h2>
-      <a class="btn btn--primary btn--lg" href="app/new" data-link>Start a duel</a>
-    </section>
+      <!-- 10 · Final CTA -->
+      <section class="band band--hero tex">
+        <div class="col cta" data-reveal>
+          <p class="kicker">Two versions. One winner.</p>
+          <h2 class="cta__title">Write it twice.<br>Pick it once.</h2>
+          <a class="btn btn--primary btn--lg" href="app/new" data-link><i data-icon="bolt"></i>Start a duel</a>
+          <p class="cta__note">Free · just gas · on BOT Chain</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ═════════════════════════ APP ═════════════════════════ -->
+    <div class="band band--app" id="appBand" hidden><main id="app" class="col app"></main></div>
+    </div>
+
+    <!-- ═════════════════════════ FOOTER ═════════════════════════ -->
+    <footer class="band footer" id="footer">
+      <div class="col">
+        <div class="footer__inner">
+          <div class="footer__brand">
+            <a href="./" class="brand" data-link><span class="brand__mark" data-logo></span><span class="brand__name">Headline Duel</span></a>
+            <p class="footer__tag">Two versions. One winner.</p>
+            <div class="footer__social">
+              <a href="#" id="xLink" target="_blank" rel="noopener" aria-label="X"><i data-icon="xlogo"></i></a>
+              <a href="#" id="ghLink" target="_blank" rel="noopener" aria-label="GitHub"><i data-icon="github"></i></a>
+            </div>
+          </div>
+          <nav class="footer__cols" aria-label="Footer">
+            <div><h4>Product</h4><a href="app/new" data-link>Start a duel</a><a href="app" data-link>The wall</a><a href="app/me" data-link>My duels</a></div>
+            <div><h4>Resources</h4><a href="#how" data-scroll>How it works</a><a href="#faq" data-scroll>FAQ</a><a href="guide" data-link>Writing better headlines</a></div>
+            <div><h4>Project</h4><a href="about" data-link>About</a><a href="#" id="ghLink2" target="_blank" rel="noopener">GitHub</a></div>
+            <div><h4>Policies</h4><a href="privacy" data-link>Privacy</a><a href="terms" data-link>Terms</a></div>
+          </nav>
+        </div>
+
+        <div class="dvd tex" id="dvd">
+          <a class="dvd__logo" id="dvdLogo" href="https://botchain.ai" target="_blank" rel="noopener" aria-label="BOT Chain — botchain.ai (opens in a new tab)">
+            <svg class="dvd__svg" viewBox="0 0 168 48" aria-hidden="true">
+              <g fill="currentColor">
+                <path d="M24 3 43 14v20L24 45 5 34V14z" fill="none" stroke="currentColor" stroke-width="4"/>
+                <circle cx="18" cy="23" r="3.2"/><circle cx="30" cy="23" r="3.2"/><rect x="16" y="30" width="16" height="3.5" rx="1.75"/>
+                <text x="54" y="31" font-family="Geist Mono, ui-monospace, monospace" font-size="19" font-weight="600" letter-spacing="-0.5">BOT Chain</text>
+              </g>
+            </svg>
+          </a>
+          <span class="dvd__corner" id="dvdCorner" aria-hidden="true">🎉 corner!</span>
+        </div>
+
+        <div class="footer__strip">
+          <button class="footer__addr" id="contractCopy" type="button" title="Copy contract address">Recorded on BOT Chain · chain ID <span id="chainIdLbl">677</span> · <span id="addrLbl">0x…</span> <i data-icon="copy"></i></button>
+          <a class="btn btn--primary btn--sm" id="explorerBtn" href="#" target="_blank" rel="noopener">View on explorer ↗</a>
+          <p class="footer__live" id="footerStats">DUELS — · VOTES — · AI RIGHT —</p>
+        </div>
+        <p class="footer__copy">© 2026 Headline Duel</p>
+      </div>
+    </footer>
   </div>
-
-  <!-- ═════════════════════════ APP ═════════════════════════ -->
-  <main id="app" class="view app" hidden></main>
-  </div>
-
-  <!-- ═════════════════════════ FOOTER ═════════════════════════ -->
-  <footer class="footer" id="footer">
-    <div class="footer__inner">
-      <div class="footer__brand">
-        <a href="./" class="brand" data-link><span class="brand__mark" data-logo></span><span class="brand__name">Headline Duel</span></a>
-        <p class="footer__tag">Two versions. One winner.</p>
-        <div class="footer__social">
-          <a href="#" id="xLink" target="_blank" rel="noopener" aria-label="X"><i data-icon="xlogo"></i></a>
-          <a href="#" id="ghLink" target="_blank" rel="noopener" aria-label="GitHub"><i data-icon="github"></i></a>
-        </div>
-      </div>
-      <nav class="footer__cols" aria-label="Footer">
-        <div><h4>Product</h4><a href="app/new" data-link>Start a duel</a><a href="app" data-link>The wall</a><a href="app/me" data-link>My duels</a></div>
-        <div><h4>Resources</h4><a href="#how" data-scroll>How it works</a><a href="#faq" data-scroll>FAQ</a><a href="guide" data-link>Writing better headlines</a></div>
-        <div><h4>Project</h4><a href="about" data-link>About</a><a href="#" id="ghLink2" target="_blank" rel="noopener">GitHub</a></div>
-        <div><h4>Policies</h4><a href="privacy" data-link>Privacy</a><a href="terms" data-link>Terms</a></div>
-      </nav>
-    </div>
-
-    <div class="dvd" id="dvd">
-      <a class="dvd__logo" id="dvdLogo" href="https://botchain.ai" target="_blank" rel="noopener" aria-label="BOT Chain — botchain.ai (opens in a new tab)">
-        <svg class="dvd__svg" viewBox="0 0 168 48" aria-hidden="true">
-          <g fill="currentColor">
-            <path d="M24 3 43 14v20L24 45 5 34V14z" fill="none" stroke="currentColor" stroke-width="4"/>
-            <circle cx="18" cy="23" r="3.2"/><circle cx="30" cy="23" r="3.2"/><rect x="16" y="30" width="16" height="3.5" rx="1.75"/>
-            <text x="54" y="31" font-family="Instrument Sans, system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="-0.5">BOT Chain</text>
-          </g>
-        </svg>
-      </a>
-      <span class="dvd__corner" id="dvdCorner" aria-hidden="true">🎉 corner!</span>
-    </div>
-
-    <div class="footer__strip">
-      <button class="mono footer__addr" id="contractCopy" type="button" title="Copy contract address">Recorded on BOT Chain · chain ID <span id="chainIdLbl">677</span> · <span id="addrLbl">0x…</span> <i data-icon="copy"></i></button>
-      <a class="btn btn--primary btn--sm" id="explorerBtn" href="#" target="_blank" rel="noopener">View on explorer ↗</a>
-      <p class="mono footer__live" id="footerStats">DUELS — · VOTES — · AI RIGHT —</p>
-    </div>
-    <p class="footer__copy">© 2026 Headline Duel</p>
-  </footer>
 </body>
 </html>
