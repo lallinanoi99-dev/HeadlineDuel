@@ -6,18 +6,18 @@ Built on **BOT Chain** (mainnet chain ID 677).
 
 | | |
 |---|---|
-| Mainnet contract | `0x0000000000000000000000000000000000000000` ← **replace after deploying** ([scan.botchain.ai](https://scan.botchain.ai)) |
-| Live site | `https://headlineduel.xyz` (GitHub Pages + custom domain) |
+| Mainnet contract | [`0x2D140F58c2A2D97927E11BFc888A0144668b47FD`](https://scan.botchain.ai/address/0x2D140F58c2A2D97927E11BFc888A0144668b47FD) on [scan.botchain.ai](https://scan.botchain.ai) |
+| Live site | https://lallinanoi99-dev.github.io/HeadlineDuel/ (GitHub Pages) |
 | Worker | `https://headline-duel-worker.<subdomain>.workers.dev` |
 
-> Until a contract address is set in `site/assets/js/config.js`, the site runs in **demo mode**. Duels and votes are then stored only in your browser, and a yellow banner says so on every page.
+> The site reads and writes this contract on BOT Chain. Without a contract address in `site/assets/js/config.js`, it falls back to **demo mode**, where data is stored in the browser and a banner says so.
 
 ---
 
 ## What's in the repo
 
 ```
-contracts/          Solidity contract, ABI, compile + test scripts (solc 0.8.24, paris, via IR)
+contracts/          Solidity contract, ABI, compile + test scripts (solc 0.8.24, paris)
 worker/             Cloudflare Worker: /duel/predict · /duel/summary · /duel/moderate · /upload
 site/               Static site for GitHub Pages (no build step)
   index.html        Website (/) and the app shell (/app, /app/new, /d/:id, /app/me)
@@ -77,10 +77,9 @@ cd contracts && npm install && npm test
 2. Set up the compiler:
    - version **0.8.24**
    - Advanced: **EVM version `paris`**
-   - **Enable optimization** (200 runs)
-   - **Use configuration file / viaIR: true**
+   - **Enable optimization** (200 runs), recommended for lower gas
 
-   `startDuel` has enough parameters that it needs via IR to avoid "stack too deep".
+   No special config file is needed. Via IR is not required.
 3. In MetaMask, add the networks:
    - **Testnet:** chain ID 968, RPC `https://rpc.bohr.life`, explorer `https://scan.bohr.life`
    - **Mainnet:** chain ID 677, RPC `https://rpc.botchain.ai`, explorer `https://scan.botchain.ai`

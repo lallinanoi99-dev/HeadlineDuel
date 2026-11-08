@@ -3,7 +3,7 @@
 // ────────────────────────────────────────────────────────────────
 
 /** Mainnet contract on BOT Chain (chain ID 677). The single source of truth for the address. */
-export const MAINNET_CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000';
+export const MAINNET_CONTRACT_ADDRESS = '0x2D140F58c2A2D97927E11BFc888A0144668b47FD';
 
 /** Testnet contract (chain ID 968) — used when the URL has ?net=testnet. */
 export const TESTNET_CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000';
