@@ -1,0 +1,38 @@
+const ganache = require('ganache'); const { ethers } = require('ethers'); const fs = require('fs');
+const abi = JSON.parse(fs.readFileSync(require('path').join(__dirname, '..', 'abi.json'))); const bytecode = '0x' + fs.readFileSync(require('path').join(__dirname, '..', 'build', 'bytecode.txt'), 'utf8');
+const iface = new ethers.Interface(JSON.parse(fs.readFileSync(require('path').join(__dirname, '..', 'abi.json'))));
+const assert = (c, m) => { if (!c) throw new Error('FAIL: ' + m); console.log('ok -', m); };
+const rejects = async (p, name, m) => { try { await p; } catch (e) { const d = e.data || e.info?.error?.data?.data || e.info?.error?.data; let n = e.revert?.name; try { if (!n && d) n = iface.parseError(typeof d === 'string' ? d : d.result)?.name; } catch {} if (!n) console.log(JSON.stringify(e.info||{}).slice(0,300)); const ok = (n || '') === name || String(e.message).includes(name); assert(ok, m + ` (${n})`); return; } assert(false, m + ' (did not revert)'); };
+(async () => {
+  const provider = new ethers.BrowserProvider(ganache.provider({ logging: { quiet: true }, chain: { hardfork: 'merge' } }));
+  const [s0, s1, s2] = await Promise.all([0,1,2].map(i => provider.getSigner(i)));
+  const f = new ethers.ContractFactory(abi, bytecode, s0); const c = await f.deploy(); await c.waitForDeployment();
+  const reason = 'B states a concrete benefit.'; const h = ethers.id(reason);
+  await (await c.connect(s1).startDuel('Which?', 0, 'Alpha', 'Beta', false, 2, 3, h, reason, 86400)).wait();
+  assert(Number(await c.totalDuels()) === 1, 'duel created');
+  const logs = await c.queryFilter(c.filters.DuelStarted(0)); assert(logs[0].args.aiReason === reason, 'reason in event');
+  await rejects(c.connect(s1).startDuel('Q', 0, 'a', 'b', false, 1, 2, h, 'other', 86400), 'BadInput', 'hash mismatch rejected');
+  await rejects(c.connect(s1).startDuel('Q', 0, 'a', 'b', false, 0, 0, ethers.ZeroHash, '', 1000), 'BadInput', 'bad duration rejected');
+  await rejects(c.connect(s1).startDuel('Q', 0, 'a', 'a', false, 0, 0, ethers.ZeroHash, '', 86400), 'BadInput', 'same versions rejected');
+  await rejects(c.connect(s1).vote(0, 1, ''), 'CreatorCannotVote', 'creator cannot vote');
+  await (await c.connect(s0).vote(0, 2, 'clearer')).wait();
+  await rejects(c.connect(s0).vote(0, 1, ''), 'AlreadyVoted', 'double vote rejected');
+  await rejects(c.connect(s2).vote(0, 3, ''), 'BadInput', 'bad choice rejected');
+  await rejects(c.connect(s2).vote(5, 1, ''), 'NotFound', 'unknown duel');
+  assert(Number(await c.winner(0)) === 0, 'live → winner 0');
+  await rejects(c.connect(s2).endEarly(0), 'NotCreator', 'only creator ends');
+  await (await c.connect(s1).endEarly(0)).wait();
+  await rejects(c.connect(s2).vote(0, 1, ''), 'NotLive', 'no votes after end');
+  assert(Number(await c.winner(0)) === 2, 'B wins');
+  const st = await c.stats(); assert(Number(st[2]) === 1 && Number(st[3]) === 1 && Number(st[1]) === 1, 'stats: AI correct 1/1, 1 vote');
+  // second duel, no AI pick, expire by time → draw
+  await (await c.connect(s2).startDuel('Name?', 4, 'X', 'Y', false, 0, 0, ethers.ZeroHash, '', 86400)).wait();
+  await provider.send('evm_increaseTime', [86401]); await provider.send('evm_mine', []);
+  assert(Number(await c.winner(1)) === 3, 'expired no votes → draw');
+  await rejects(c.connect(s1).setHidden(1, true), 'NotCurator', 'only curator hides');
+  await (await c.setHidden(1, true)).wait(); assert((await c.getDuel(1)).hidden === true, 'curator hid duel');
+  const page = await c.getDuels(0, 10); assert(page.length === 2 && page[1].question === 'Name?', 'getDuels paging');
+  const [cr, vt] = await c.duelsOf(await s0.getAddress()); assert(cr.length === 0 && vt.length === 1, 'duelsOf');
+  assert(await c.hasVoted(0, await s0.getAddress()), 'hasVoted');
+  console.log('ALL PASSED');
+})().catch(e => { console.error(e.message); process.exit(1); });

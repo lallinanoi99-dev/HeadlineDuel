@@ -1,0 +1,26 @@
+# Shared Week-1 Worker — Headline Duel routes live alongside the existing /upload route.
+name = "headline-duel-worker"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+# No request logging: observability is off and the code never logs request bodies.
+[observability]
+enabled = false
+
+[vars]
+# Comma-separated list of origins allowed by CORS (no trailing slash).
+ALLOWED_ORIGINS = "https://headlineduel.xyz,http://localhost:8080,http://127.0.0.1:8080"
+MODEL = "claude-opus-5-5"
+IPFS_GATEWAY = "https://gateway.pinata.cloud/ipfs/"
+
+# Secrets (set with `wrangler secret put <NAME>`):
+#   ANTHROPIC_API_KEY  — Claude API key
+#   PINATA_JWT         — Pinata JWT for IPFS uploads (/upload)
+
+# Optional Cloudflare rate limiter (recommended in production). If absent, an
+# in-memory per-isolate limiter is used as a best-effort fallback.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 20, period = 60 }
