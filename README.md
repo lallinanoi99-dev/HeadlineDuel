@@ -7,7 +7,7 @@ Built on **BOT Chain** (mainnet chain ID 677).
 | | |
 |---|---|
 | Mainnet contract | [`0x2D140F58c2A2D97927E11BFc888A0144668b47FD`](https://scan.botchain.ai/address/0x2D140F58c2A2D97927E11BFc888A0144668b47FD) on [scan.botchain.ai](https://scan.botchain.ai) |
-| Live site | https://lallinanoi99-dev.github.io/HeadlineDuel/ (GitHub Pages) |
+| Live site | https://headlineduelbot.vercel.app (Vercel) · https://lallinanoi99-dev.github.io/HeadlineDuel/ (GitHub Pages) |
 | Worker | `https://headline-duel-worker.<subdomain>.workers.dev` |
 
 > The site reads and writes this contract on BOT Chain. Without a contract address in `site/assets/js/config.js`, it falls back to **demo mode**, where data is stored in the browser and a banner says so.
@@ -137,6 +137,10 @@ GitHub Pages:
 1. Settings → Pages → Source: **GitHub Actions**. `.github/workflows/pages.yml` publishes `site/` on every push to `main`.
 2. Custom domain: rename `site/CNAME.example` to `site/CNAME` with your domain, then point DNS at GitHub Pages.
 3. `404.html` forwards deep links like `/d/21` to the SPA. The site also works under `<user>.github.io/<repo>/` because the base path is detected automatically.
+
+### Vercel
+
+`vercel.json` serves the `site/` folder with no build step, and rewrites every path that isn't a file (like `/app` or `/d/21`) to `index.html`. Import the repo in Vercel and leave **Root Directory** at the repo root. If you set Root Directory to `site` instead, remove `vercel.json` or change `outputDirectory` to `.`.
 
 ### Home page (10 sections, Monologue-style layout)
 

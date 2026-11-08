@@ -10,7 +10,7 @@ enabled = false
 
 [vars]
 # Comma-separated list of origins allowed by CORS (no trailing slash).
-ALLOWED_ORIGINS = "https://headlineduel.xyz,http://localhost:8080,http://127.0.0.1:8080"
+ALLOWED_ORIGINS = "https://headlineduelbot.vercel.app,https://lallinanoi99-dev.github.io,http://localhost:8080,http://127.0.0.1:8080"
 MODEL = "claude-opus-5-5"
 IPFS_GATEWAY = "https://gateway.pinata.cloud/ipfs/"
 
