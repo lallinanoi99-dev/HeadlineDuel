@@ -25,7 +25,7 @@ const PAGES = {
       <h2>How the AI pick is locked</h2>
       <p>When you start a duel, the AI's pick (A/B), its confidence and <code>keccak256(reason)</code> are stored in the duel. The reason text is emitted in the <code>DuelStarted</code> event; the results page recomputes the hash and shows ✓ when they match.</p>
       <h2>Deploying your own</h2>
-      <p>See the README in the <a href="${esc(REPO_URL)}" target="_blank" rel="noopener">GitHub repo</a>: compile <code>contracts/HeadlineDuel.sol</code> in Remix (evmVersion <code>paris</code>, via IR on), deploy to testnet then mainnet, and paste the address into <code>site/assets/js/config.js</code>.</p>`,
+      <p>See the README in the <a href="${esc(REPO_URL)}" target="_blank" rel="noopener">GitHub repo</a>: compile <code>contracts/HeadlineDuel.sol</code> in Remix (evmVersion <code>paris</code>, optimizer on), deploy to testnet then mainnet, and paste the address into <code>site/assets/js/config.js</code>.</p>`,
   },
   privacy: {
     title: 'Privacy',

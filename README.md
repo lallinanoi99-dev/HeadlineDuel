@@ -17,7 +17,7 @@ Built on **BOT Chain** (mainnet chain ID 677).
 ## What's in the repo
 
 ```
-contracts/          Solidity contract, ABI, compile + test scripts (solc 0.8.24, paris, via IR)
+contracts/          Solidity contract, ABI, compile + test scripts (solc 0.8.24, paris)
 worker/             Cloudflare Worker: /duel/predict · /duel/summary · /duel/moderate · /upload
 site/               Static site for GitHub Pages (no build step)
   index.html        Website (/) and the app shell (/app, /app/new, /d/:id, /app/me)
@@ -77,10 +77,9 @@ cd contracts && npm install && npm test
 2. Set up the compiler:
    - version **0.8.24**
    - Advanced: **EVM version `paris`**
-   - **Enable optimization** (200 runs)
-   - **Use configuration file / viaIR: true**
+   - **Enable optimization** (200 runs), recommended for lower gas
 
-   `startDuel` has enough parameters that it needs via IR to avoid "stack too deep".
+   No special config file is needed. Via IR is not required.
 3. In MetaMask, add the networks:
    - **Testnet:** chain ID 968, RPC `https://rpc.bohr.life`, explorer `https://scan.bohr.life`
    - **Mainnet:** chain ID 677, RPC `https://rpc.botchain.ai`, explorer `https://scan.botchain.ai`

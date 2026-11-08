@@ -5,7 +5,7 @@ pragma solidity ^0.8.20;
 /// @notice Creators post two versions (A/B) of a headline, tagline, ad, etc.
 ///         An AI prediction is locked in at creation (pick + keccak256 of the reason),
 ///         then each wallet may vote once. Reasons are emitted in events (cheap storage).
-/// @dev No tokens, no payments. Compile with evmVersion `paris`.
+/// @dev No tokens, no payments. Compile with evmVersion `paris` (optimizer on; via-IR not needed).
 contract HeadlineDuel {
     // ───────────────────────────── Types ─────────────────────────────
 
@@ -29,7 +29,7 @@ contract HeadlineDuel {
 
     // ───────────────────────────── Storage ───────────────────────────
 
-    Duel[] public duels;
+    Duel[] internal duels; // read via getDuel / getDuels (a public getter would be stack-too-deep)
     mapping(uint256 => mapping(address => uint8)) public voteOf; // 0 none · 1 A · 2 B
     mapping(address => uint256[]) internal createdBy;
     mapping(address => uint256[]) internal votedBy;
@@ -73,33 +73,21 @@ contract HeadlineDuel {
 
     /// @param aiReason the full AI reason text (emitted, not stored); must hash to aiReasonHash.
     /// @param duration seconds: 1 day, 3 days or 7 days.
+    /// @dev Strings are `memory` (one stack slot each) so this compiles without via-IR.
     function startDuel(
-        string calldata question,
+        string memory question,
         uint8 category,
-        string calldata a,
-        string calldata b,
+        string memory a,
+        string memory b,
         bool isImage,
         uint8 aiPick,
         uint8 aiConfidence,
         bytes32 aiReasonHash,
-        string calldata aiReason,
+        string memory aiReason,
         uint64 duration
     ) external returns (uint256 id) {
-        uint256 qLen = bytes(question).length;
-        if (qLen == 0 || qLen > MAX_QUESTION) revert BadInput("question");
-        if (category >= CATEGORY_COUNT) revert BadInput("category");
-        if (bytes(a).length == 0 || bytes(a).length > MAX_VERSION) revert BadInput("a");
-        if (bytes(b).length == 0 || bytes(b).length > MAX_VERSION) revert BadInput("b");
-        if (keccak256(bytes(a)) == keccak256(bytes(b))) revert BadInput("same");
-        if (duration != 1 days && duration != 3 days && duration != 7 days) revert BadInput("duration");
-        if (aiPick > 2 || aiConfidence > 3) revert BadInput("ai");
-        if (aiPick == 0) {
-            if (aiConfidence != 0 || aiReasonHash != bytes32(0) || bytes(aiReason).length != 0) revert BadInput("ai");
-        } else {
-            if (aiConfidence == 0) revert BadInput("ai");
-            if (bytes(aiReason).length > MAX_REASON) revert BadInput("aiReason");
-            if (keccak256(bytes(aiReason)) != aiReasonHash) revert BadInput("aiReasonHash");
-        }
+        _checkContent(question, category, a, b, duration);
+        _checkAi(aiPick, aiConfidence, aiReasonHash, aiReason);
 
         id = duels.length;
         Duel storage d = duels.push();
@@ -109,14 +97,39 @@ contract HeadlineDuel {
         d.a = a;
         d.b = b;
         d.isImage = isImage;
+        _storeAiAndTime(d, aiPick, aiConfidence, aiReasonHash, duration);
+
+        createdBy[msg.sender].push(id);
+        emit DuelStarted(id, msg.sender, aiPick, aiReason);
+    }
+
+    function _checkContent(string memory question, uint8 category, string memory a, string memory b, uint64 duration) internal pure {
+        uint256 qLen = bytes(question).length;
+        if (qLen == 0 || qLen > MAX_QUESTION) revert BadInput("question");
+        if (category >= CATEGORY_COUNT) revert BadInput("category");
+        if (bytes(a).length == 0 || bytes(a).length > MAX_VERSION) revert BadInput("a");
+        if (bytes(b).length == 0 || bytes(b).length > MAX_VERSION) revert BadInput("b");
+        if (keccak256(bytes(a)) == keccak256(bytes(b))) revert BadInput("same");
+        if (duration != 1 days && duration != 3 days && duration != 7 days) revert BadInput("duration");
+    }
+
+    function _checkAi(uint8 aiPick, uint8 aiConfidence, bytes32 aiReasonHash, string memory aiReason) internal pure {
+        if (aiPick > 2 || aiConfidence > 3) revert BadInput("ai");
+        if (aiPick == 0) {
+            if (aiConfidence != 0 || aiReasonHash != bytes32(0) || bytes(aiReason).length != 0) revert BadInput("ai");
+        } else {
+            if (aiConfidence == 0) revert BadInput("ai");
+            if (bytes(aiReason).length > MAX_REASON) revert BadInput("aiReason");
+            if (keccak256(bytes(aiReason)) != aiReasonHash) revert BadInput("aiReasonHash");
+        }
+    }
+
+    function _storeAiAndTime(Duel storage d, uint8 aiPick, uint8 aiConfidence, bytes32 aiReasonHash, uint64 duration) internal {
         d.aiPick = aiPick;
         d.aiConfidence = aiConfidence;
         d.aiReasonHash = aiReasonHash;
         d.endsAt = uint64(block.timestamp) + duration;
         d.createdBlock = uint64(block.number);
-
-        createdBy[msg.sender].push(id);
-        emit DuelStarted(id, msg.sender, aiPick, aiReason);
     }
 
     /// @param choice 1 = A, 2 = B
