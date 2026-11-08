@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Headline Duel</title>
+  <script>
+    // GitHub Pages SPA fallback: forward deep links (/app, /d/21, …) to index.html?p=/d/21
+    (function () {
+      var l = window.location;
+      var base = '/';
+      if (/\.github\.io$/.test(l.hostname)) {
+        var seg = l.pathname.split('/')[1];
+        if (seg) base = '/' + seg + '/';
+      }
+      var path = l.pathname.slice(base.length - 1);
+      var q = l.search ? '&' + l.search.slice(1) : '';
+      l.replace(l.protocol + '//' + l.host + base + '?p=' + encodeURIComponent(path) + q + l.hash);
+    })();
+  </script>
+</head>
+<body style="background:#272727;color:#F5F2EA;font-family:sans-serif">Redirecting…</body>
+</html>
